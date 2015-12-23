@@ -2,6 +2,8 @@ package qiminl.lifaryupdate;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Outline;
 import android.media.Image;
 import android.media.MediaPlayer;
@@ -13,6 +15,7 @@ import android.text.Layout;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,15 +35,18 @@ import com.melnykov.fab.FloatingActionButton;
 
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
 
 
-public class EditDiaryActivity extends Activity implements AdapterView.OnItemSelectedListener, MediaCommunication, View.OnClickListener {
+public class EditDiaryActivity extends Activity implements AdapterView.OnItemSelectedListener, MediaCommunication, View.OnClickListener, View.OnLongClickListener {
 
 
     private static final String LOG_TAG = "AudioRecordTest";
     public static final int PRIVATE = 0;
     public static final int PUBLIC = 1;
-
+    private static final String[] delDialogItems = {"delete", "cancel"};
+    private  static final int DELETE = 0;
+    private static final int CANCEL = 1;
     ImageView imgView;
     EditText dateEdit;
     Spinner shareSpinner;
@@ -49,18 +55,17 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
     TextView locationView;
     EditButtonFragment frag;
 
-    // delete buttons
-    ImageButton delImg;
-    ImageButton delAudio;
-    ImageButton delLoc;
 
     // Diary attr
+    Diary currentDiary;
     String dateTime;
     int shareSelection;
     String diaryText;
     String audioFileName;
     MediaPlayer mPlayer = null;
     boolean mStartPlaying = true;
+
+    private int dialogSelection = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,22 +111,19 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
                 onPlay(mStartPlaying);
                 mStartPlaying = !mStartPlaying;
                 break;
-            case R.id.deleteImage:
-                // TODO: set image string to null
-                deleteView(imgView, delImg);
-                break;
-            case R.id.deleteAudio:
-                // TODO: set audio string to null
-                deleteView(playButton, delAudio);
-                break;
-            case R.id.locDelete:
-                // TODO: set location to null
-                deleteView(locationView, delLoc);
-                break;
         }
     }
 
 
+    @Override
+    public boolean onLongClick(View v) {
+        if (v == imgView || v == playButton || v == locationView){
+            delDialog("Delete?", delDialogItems, v);
+            return true;
+        }
+
+        return false;
+    }
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Log.d("Edit", "Select: " + position );
@@ -131,13 +133,15 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
         // select private
+        shareSelection = PRIVATE;
     }
 
     @Override
     public void audioCom(String mFilename) {
 
         audioFileName = mFilename;
-        displayView(playButton, delAudio);
+        // display play button
+        playButton.setVisibility(View.VISIBLE);
 
         float audioDuration = 0;
         mStartPlaying = true;
@@ -189,21 +193,6 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
 
 
-
-    /******** Delete Functions ***************/
-
-    private void deleteView(View v, ImageButton imgBut){
-        v.setVisibility(View.GONE);
-        imgBut.setVisibility(View.GONE);
-    }
-
-    /******** Display Functions ***************/
-
-    private void displayView(View v, ImageButton imgBut){
-        v.setVisibility(View.VISIBLE);
-        imgBut.setVisibility(View.VISIBLE);
-    }
-
     /*********** Setting Action Bar *****************/
     private void actionbarSetting(){
         ActionBar actionBar = getActionBar();
@@ -228,10 +217,8 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         // Instantiate
         // image view
         imgView = (ImageView) findViewById(R.id.imageView);
+        imgView.setOnLongClickListener(this);
         imgView.setVisibility(View.GONE);
-        delImg = (ImageButton) findViewById(R.id.deleteImage);
-        delImg.setOnClickListener(this);
-        delImg.setVisibility(View.GONE);
 
         // date text
         dateEdit = (EditText) findViewById(R.id.dateEdit);
@@ -257,19 +244,14 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         // play button
         playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
+        playButton.setOnLongClickListener(this);
         playButton.setVisibility(View.GONE);
 
-        delAudio = (ImageButton) findViewById(R.id.deleteAudio);
-        delAudio.setOnClickListener(this);
-        delAudio.setVisibility(View.GONE);
 
         // location text
         locationView = (TextView) findViewById(R.id.locationText);
+        playButton.setOnLongClickListener(this);
         locationView.setVisibility(View.GONE);
-
-        delLoc = (ImageButton) findViewById(R.id.locDelete);
-        delLoc.setOnClickListener(this);
-        delLoc.setVisibility(View.GONE);
 
         // fragment
         frag = (EditButtonFragment) getFragmentManager().findFragmentById(R.id.buttonsFrag);
@@ -278,5 +260,43 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
     }
 
+    /*********************  pop up dialog  *****************************/
+    /*
+    *   Pop up a  dialog which can select among a list of items
+    *   @param: title: the title of the dialog
+    *   @param items: the items listed in the list view dialog
+    *   @param view: the parent view that generates the dialog
+    *   @return which item is selected
+    * */
+    private void delDialog(String title, String[] items, final View parent){
+        AlertDialog.Builder builder  = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setItems(items, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (which == DELETE) {
+                    // image view
+                    if (parent == imgView) {
+                        imgView.setVisibility(View.GONE);
+                        // TODO: set image string to null
+                    }
+                    // play button
+                    else if (parent == playButton) {
+                        playButton.setVisibility(View.GONE);
+                        // TODO: set image string to null
 
+                    }
+                    // location View
+                    else {
+                        locationView.setVisibility(View.GONE);
+                        // TODO: set location to null
+
+                    }
+                }
+
+            }
+        });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

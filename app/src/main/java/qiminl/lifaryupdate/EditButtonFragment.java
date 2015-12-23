@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import android.media.MediaRecorder;
 import android.media.MediaPlayer;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -24,6 +25,9 @@ import java.io.IOException;
 public class EditButtonFragment extends Fragment implements View.OnClickListener {
 
     private static final String LOG_TAG = "AudioRecordTest";
+    private static final int MIN_RECORD_TIME = 700;
+    private static final int MAX_RECORD_TIME = 18000;
+
     private static String mFileName = null;
 
     FloatingActionButton recordFab;
@@ -36,6 +40,8 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
 
     boolean mStartRecording;
 
+    long mStartTime;
+    ObtainDecibelThread mThread;
     public EditButtonFragment() {
         // Required empty public constructor
     }
@@ -95,17 +101,25 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
             recordFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_notification_overlay));
         }
         else{
+            Log.d(LOG_TAG, "Stop Recording");
             stopRecording();
-            Log.d(LOG_TAG, "stop recording");
+            Log.d(LOG_TAG, "Stop Recording");
+
             // turn the record button img to not recording img
             recordFab.setImageDrawable(getResources().getDrawable(R.drawable.rec96));
-            //  send audio file to Edit Diary Activity
-            Log.d(LOG_TAG, "stop recording");
+            Log.d(LOG_TAG, "Stop Recording");
+            long intervalTime = System.currentTimeMillis() - mStartTime;
+            //  send audio file to Edit Diary Activity only if the recorded time greater than min time
+            if (intervalTime >    MIN_RECORD_TIME) {
+                Log.d(LOG_TAG, "Stop Recording");
+                MediaCommunication mediaCom = (MediaCommunication) getActivity();
+                mediaCom.audioCom(mFileName);
+            }
+            else{
+                Log.d(LOG_TAG, "less than MIN_Record_time");
+                Toast.makeText(getActivity(), "Record Time Too Short", Toast.LENGTH_LONG).show();
 
-            MediaCommunication mediaCom = (MediaCommunication) getActivity();
-            mediaCom.audioCom(mFileName);
-            Log.d(LOG_TAG, "stop recording");
-
+            }
         }
 
     }
@@ -119,17 +133,26 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
         } catch (IOException e) {
             Log.e(LOG_TAG, "prepare() failed");
         }
-
         mRecorder.start();
+        mThread = new ObtainDecibelThread();
+        mThread.start();
     }
 
     //    To stop audio capture, call MediaRecorder.stop().
     //    When you are done with the MediaRecorder instance, call MediaRecorder.release() on it.
     //        Calling MediaRecorder.release() is always recommended to free the resource immediately.
     private void stopRecording() {
+        Log.d(LOG_TAG, "Stop");
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
+        Log.d(LOG_TAG, "Stop");
+        if(mThread != null){
+            mThread.exit();
+            mThread = null;
+        }
+        Log.d(LOG_TAG, "Stop");
+
     }
 
     //    Create a new instance of android.media.MediaRecorder.
@@ -139,6 +162,7 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
     //    Set output file name using MediaRecorder.setOutputFile().
     //    Set the audio encoder using MediaRecorder.setAudioEncoder().
     private void recordInitial(){
+        mStartTime = System.currentTimeMillis();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -147,5 +171,31 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
         mStartRecording = true;
     }
 
+    /******************************* inner class ****************************************/
+    private class ObtainDecibelThread extends Thread {
+        private volatile boolean running = true;
 
+        public void exit() {
+            running = false;
+        }
+        @Override
+        public void run() {
+            while (running) {
+                try {
+                    Thread.sleep(300);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                if (System.currentTimeMillis() - mStartTime >= MAX_RECORD_TIME) {
+                    // if exceed max record time
+                    // stop recording
+                    Log.d(LOG_TAG, "Exceed Max");
+                    onRecord(mStartRecording);
+                    mStartRecording = !mStartRecording;
+                    exit();
+
+                }
+            }
+        }
+    }
 }
