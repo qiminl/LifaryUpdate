@@ -1,0 +1,148 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical"
+    tools:context="qiminl.lifaryupdate.EditDiaryActivity"
+    android:background="@color/light_blue_grey"
+    android:id="@+id/diaryEditLayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:id="@+id/imageView"
+            android:layout_gravity="center_horizontal"
+            android:visibility="visible"
+            android:src="@android:drawable/ic_input_delete"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteImage"
+            android:src="@android:drawable/ic_menu_delete"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/imageView" />
+
+    </RelativeLayout>
+
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:outlineProvider="bounds"
+        android:elevation="2dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+        <EditText
+            android:layout_width="223dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/dateEdit"
+            android:text="DD-MM-YY"
+            android:textColor="@color/third"
+            android:layout_gravity="left|top" />
+
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/shareSpinner"
+            android:layout_gravity="right|top"
+            android:spinnerMode="dropdown" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/editText"
+        android:hint="What are you doing today"
+        android:gravity="left|top"
+        android:background="@android:color/white"
+        android:singleLine="true"
+        android:shadowColor="@color/blue_grey"
+        android:layout_weight="1"
+        android:elevation="2dp"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/third" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        android:layout_marginTop="16dp"
+        android:outlineProvider="bounds"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+
+        <Button
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:gravity="center"
+            android:text="11&quot;"
+            android:id="@+id/playButton"
+            android:textColor="@color/accent"
+            android:background="@anim/imageselector"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/deleteAudio"
+            android:src="@android:drawable/ic_menu_delete"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/playButton" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/locationText"
+            android:text="location"
+            android:textColor="@color/third"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="false"
+            android:layout_marginEnd="47dp"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/locDelete"
+            android:src="@android:drawable/ic_menu_delete"
+            android:scaleType="fitCenter"
+            android:background="@android:color/transparent"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/locationText" />
+
+    </RelativeLayout>
+
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:name="qiminl.lifaryupdate.EditButtonFragment"
+        android:id="@+id/buttonsFrag"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp" />
+
+
+</LinearLayout>

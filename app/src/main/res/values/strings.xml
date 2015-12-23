@@ -1,0 +1,56 @@
+<resources>
+    <string name="app_name">Lifary Update</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
+    <string name="title">Lifary</string>
+    <string name="loginLink"> Log in </string>
+    <string name="signupLink"> Sign Up </string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="unique">unique</string>
+    <string name="user">user</string>
+    <string name="blockColor">#80ffffff</string>
+
+    <!-- Font -->
+    <string name="roboto_light">sans-serif-light</string>
+
+    <!-- Errors and messages -->
+    <string name="qrdroid_missing">QR Droid version 3.5 or later is required. Do you want to download or update it for free?</string>
+    <string name="from_market">From the Market</string>
+    <string name="direct">Direct download</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_code">Enter some text to encode</string>
+    <string name="not_saved">QR code image could not be saved. Check your SD card is available</string>
+    <string name="saved">QR code image was saved as</string>
+    <string name="enter_url">Enter local path (starting with /) or remote URL (starting with http://) of QR code image</string>
+    <string name="not_decoded">QR code image could not been loaded or decoded</string>
+    <string name="procesing">Processing...</string>
+
+    <!-- URLs -->
+    <string name="url_market">http://market.android.com/details?id=la.droid.qr</string>
+    <string name="url_direct">http://droid.la/apk/qr/</string>
+    <string name="url_source">http://qrdroid.com/services</string>
+
+    <string name="UPLOAD_DIARY">http://192.168.1.71:8000/wala/upload_diary.php</string>
+    <string name="DOWNLOAD_ALL_DIARIES_URL">http://192.168.1.71:8000/wala/get_all_diaries.php</string>
+    <string name="UPLOAD_FILE">http://192.168.1.71:8000/wala/UploadToServer.php</string>
+    <string name="UPLOAD_DIARY_URL">http://192.168.1.71:8000/wala/upload_diary.php</string>
+    <string name="DOWNLOAD_USER_DIARIES_URL">http://192.168.1.71:8000/wala/get_diary.php</string>
+    <string name="LOGIN">http://192.168.1.71:8000/wala/login.php</string>
+    <string name="REGISTER">http://192.168.1.71:8000/wala/register.php</string>
+    <string name="title_activity_launcher">LauncherActivity</string>
+    <string name="title_activity_diary_list">DiaryListActivity</string>
+    <string name="title_activity_edit_diary">EditDiaryActivity</string>
+
+    <!-- Spinner Selections -->
+    <string-array name="share_selection">
+        <item>Private</item>
+        <item>Public</item>
+    </string-array>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

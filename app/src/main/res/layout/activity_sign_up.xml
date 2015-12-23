@@ -1,0 +1,137 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="qiminl.lifaryupdate.SignUpActivity"
+    android:background="@drawable/blur"
+    android:weightSum="1"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:divider="@android:drawable/divider_horizontal_textfield"
+    android:baselineAligned="true"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="LIFARY"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal"
+        android:textColor="@android:color/white"
+        android:textSize="56sp"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#80ffffff"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="10dp"
+        android:alpha="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Enter Username"
+            android:id="@+id/usernameView"
+            android:textColor="@color/third"
+            android:layout_marginTop="20dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/usernameEdit"
+            android:layout_gravity="center_horizontal"
+            style="@style/editTextBox"
+            android:hint="username"
+            android:textColor="@color/third" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Enter Password"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/passwordView"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/third" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordEdit"
+            style="@style/editTextBox"
+            android:hint="password"
+            android:textColor="@color/third" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Re-Enter Password"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView"
+            android:layout_marginTop="13dp"
+            android:textColor="@color/third" />
+
+        <EditText
+            style="@style/editTextBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/rePasswordEdit"
+            android:hint="password"
+            android:typeface="serif"
+            android:textColor="@color/third" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign Up"
+                android:id="@+id/signupButton"
+                android:layout_gravity="center_horizontal"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="20dp"
+                android:background="@color/primary"
+                android:alpha="1"
+                android:gravity="center_vertical|center_horizontal"
+                android:textColor="@color/white"
+                android:elegantTextHeight="true"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:singleLine="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text= "@string/loginLink"
+                android:id="@+id/loginLink"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:linksClickable="true"
+                android:singleLine="false"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:layout_weight="1"
+                android:gravity="center" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

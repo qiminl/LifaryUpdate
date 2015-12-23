@@ -1,0 +1,49 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="CustomizeAppTheme" parent="android:Theme.Holo.Light">
+        <!-- Customize your theme here. -->
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
+    </style>
+
+    <style name="MyActionBarStyle" parent="android:Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/primary</item>
+        <item name="android:titleTextStyle">@style/titleText</item>
+        <item name="android:icon">@drawable/actionbaricon</item>
+    </style>
+
+    <style name="titleText">
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:fontFamily">"sans-serif-light"</item>
+    </style>
+
+    <style name="welcomText">
+        <item name="android:textColor">@color/primary</item>
+        <item name="android:textSize">56sp</item>
+        <item name="android:textStyle">bold|italic</item>
+        <item name="android:typeface">serif</item>
+    </style>
+
+    <style name="editTextBox" parent="android:Widget.DeviceDefault.EditText">
+        <item name="android:layout_width">328dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:textAppearance">@style/regularText</item>
+        <item name="android:textColorHint">@android:color/tertiary_text_light</item>
+
+    </style>
+    <style name="regularText" parent="android:TextAppearance">
+        <item name="android:color">@color/primary</item>
+        <item name="android:fontFamily">&quot;sans-serif&quot;</item>
+    </style>
+
+    <style name="bodyText" parent= "android:TextAppearance">
+        <item name="android:color">@color/primary</item>
+        <item name="android:fontFamily">&quot;sans-serifn&quot;</item>
+        <item name="android:gravity">center_vertical|center_horizontal|left</item>
+    </style>
+
+
+
+</resources>
