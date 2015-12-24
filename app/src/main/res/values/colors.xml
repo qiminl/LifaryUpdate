@@ -2,9 +2,9 @@
 <resources>
 
     <!--          Colors                        -->
-    <color name="primary">#1497A8</color>
+    <color name="primary">#00B7C2</color>
     <color name="accent">#F1CBB0</color>
-    <color name="primary_pressed">#60014851</color>
+    <color name="primary_pressed">#60459EA6</color>
     <color name="ripple">@color/light_salmon</color>
     <color name= "unfocus_background">#93ADAD</color>
 

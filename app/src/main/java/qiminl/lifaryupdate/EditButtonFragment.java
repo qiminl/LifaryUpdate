@@ -2,16 +2,14 @@ package qiminl.lifaryupdate;
 
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.media.MediaRecorder;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.media.MediaRecorder;
-import android.media.MediaPlayer;
 import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
@@ -101,25 +99,21 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
             recordFab.setImageDrawable(getResources().getDrawable(android.R.drawable.ic_notification_overlay));
         }
         else{
-            Log.d(LOG_TAG, "Stop Recording");
             stopRecording();
-            Log.d(LOG_TAG, "Stop Recording");
-
             // turn the record button img to not recording img
             recordFab.setImageDrawable(getResources().getDrawable(R.drawable.rec96));
-            Log.d(LOG_TAG, "Stop Recording");
-            long intervalTime = System.currentTimeMillis() - mStartTime;
+
             //  send audio file to Edit Diary Activity only if the recorded time greater than min time
+            long intervalTime = System.currentTimeMillis() - mStartTime;
             if (intervalTime >    MIN_RECORD_TIME) {
-                Log.d(LOG_TAG, "Stop Recording");
                 MediaCommunication mediaCom = (MediaCommunication) getActivity();
                 mediaCom.audioCom(mFileName);
             }
             else{
-                Log.d(LOG_TAG, "less than MIN_Record_time");
                 Toast.makeText(getActivity(), "Record Time Too Short", Toast.LENGTH_LONG).show();
 
             }
+
         }
 
     }
@@ -142,17 +136,13 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
     //    When you are done with the MediaRecorder instance, call MediaRecorder.release() on it.
     //        Calling MediaRecorder.release() is always recommended to free the resource immediately.
     private void stopRecording() {
-        Log.d(LOG_TAG, "Stop");
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
-        Log.d(LOG_TAG, "Stop");
         if(mThread != null){
             mThread.exit();
             mThread = null;
         }
-        Log.d(LOG_TAG, "Stop");
-
     }
 
     //    Create a new instance of android.media.MediaRecorder.
@@ -174,9 +164,12 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
     /******************************* inner class ****************************************/
     private class ObtainDecibelThread extends Thread {
         private volatile boolean running = true;
-
+        public boolean getRunning(){
+            return running;
+        }
         public void exit() {
             running = false;
+
         }
         @Override
         public void run() {
@@ -186,15 +179,12 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                if (System.currentTimeMillis() - mStartTime >= MAX_RECORD_TIME) {
-                    // if exceed max record time
-                    // stop recording
-                    Log.d(LOG_TAG, "Exceed Max");
-                    onRecord(mStartRecording);
-                    mStartRecording = !mStartRecording;
-                    exit();
-
-                }
+//                if (System.currentTimeMillis() - mStartTime >= MAX_RECORD_TIME) {
+//                    // if exceed max record time
+//                    // stop recording
+//                    exit();
+//
+//                }
             }
         }
     }

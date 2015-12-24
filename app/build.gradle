@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "qiminl.lifaryupdate"
         minSdkVersion 21
-        targetSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
     }
@@ -32,7 +32,6 @@ repositories {mavenCentral()}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.firebase:firebase-client-android:2.5.0+'
     compile 'com.google.code.gson:gson:2.2.3'
     compile 'com.melnykov:floatingactionbutton:1.3.0'
 
