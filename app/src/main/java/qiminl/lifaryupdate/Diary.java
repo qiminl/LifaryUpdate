@@ -2,10 +2,14 @@ package qiminl.lifaryupdate;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 
@@ -26,7 +30,8 @@ public class Diary {
     private String userid;
 
     //todo modify init stat - create a method to full init with content
-    public Diary(int a){
+    public Diary(){
+        // get date and time
         Calendar c= Calendar.getInstance();
         int seconds = c.get(Calendar.SECOND);
         int minute = c.get(Calendar.MINUTE);
@@ -48,19 +53,59 @@ public class Diary {
 
     }
 
-    // --------- public setters ---------------------
+    // public setters
     public void setContents(String contents){
         text = contents;
     }
+
     public void setLocation(float lat, float lon){
         latitude = lat;
         longitude = lon;
     }
-    public void setImage(String image){
-        this.image = image;
-    }
+
+    //  set sound functions \
     public void setSound(String sound){
         this.sound = sound;
+    }
+    public boolean setSoundByFileName(String mFileName){
+        boolean result = false;
+        try{
+            FileInputStream is = new FileInputStream(mFileName);
+            Log.d("Lifary", "Method 2, fileinputstream");
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            Log.d("Lifary", "Byte array output stream");
+            byte[] b = new byte[1024];
+            Log.d("Lifary", "new byte b");
+            int bytesRead = is.read(b);
+            Log.d("Lifary", "read byte");
+            while (bytesRead != -1) {
+                bos.write(b, 0, bytesRead);
+                bytesRead = is.read(b);
+            }
+            Log.d("Lifary", "Read byte done");
+            byte[] audioByte = bos.toByteArray();
+            Log.d("Lifary", "convert to byte array");
+            Log.d("Lifary", "Edit Diary: Audio byte = " + Arrays.toString(audioByte));
+            setSoundByByte(audioByte);
+            Log.d("Lifary", "add Sound");
+            result = true;
+        }catch(Exception e){
+            e.printStackTrace();
+            result = false;
+        }
+        return result;
+    }
+    public void setSoundByByte(byte[] audioByte){
+        if(audioByte != null) {
+            sound = Base64.encodeToString(audioByte, Base64.DEFAULT);
+        }
+        //  Log.d("Lifary", "sound.size = " + sound.length);
+    }
+
+    // set image functions
+
+    public void setImage(String image){
+        this.image = image;
     }
     public void setImageByBitmap(Bitmap bmp){
 
@@ -73,23 +118,40 @@ public class Diary {
         else    image = Base64.encodeToString(img, Base64.DEFAULT);
         //Log.d("Lifary", "Diary: img == " + Arrays.toString(img));
     }
-    public void setSoundByByte(byte[] audioByte){
-        if(audioByte != null) {
-            sound = Base64.encodeToString(audioByte, Base64.DEFAULT);
-        }
-      //  Log.d("Lifary", "sound.size = " + sound.length);
-    }
+
     public void setImageByByte(byte[] imgByte){
         if(imgByte != null)
            image = Base64.encodeToString(imgByte, Base64.DEFAULT);
     }
 
+    public boolean setImageByFileName(String mFileName){
+        try{
+            Bitmap bitmap = BitmapFactory.decodeFile(mFileName);
+            bitmap = compressImgBitmap(bitmap, 512);
+            setImageByBitmap(bitmap);
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void setImageByCamera(){
+        File f = new File(Environment)
+    }
+
     public void setImageUrl(String url){
         imageurl = url;
     }
+
+
+    // set share
     public void setShare(int s){
         share = s;
     }
+
+    // set date functions
     public void setDate(String date){this.date = date;}
     public void setDate(){
         Calendar c= Calendar.getInstance();
@@ -102,26 +164,30 @@ public class Diary {
         date = month + "-" + day + "-" + year + "  " +
                 hour + ":" + minute + ":" + seconds;
     }
+
+
     public void setId(double i){this.id = i;}
+
+    // set user id
     public void setUserid(String diaryid){this.userid = diaryid;}
 
     // --------- public getters ---------------------
     public double getId(){ return id;}
     public String getDate(){return date;}
-    public String getContent(){return text;}
+
+    // get location functions
     public float getLatitude(){return latitude;}
     public float getLongitude(){return longitude;}
+    // get share
     public int getShare(){return share;}
+
+    // get image functions
     public byte[] getImgByte(){
             byte[] img = null;
             img = Base64.decode(image,Base64.DEFAULT);
         return img;
     }
-    public byte[] getAudioByte(){
-        byte[] soundByte = null;
-        soundByte = Base64.decode(sound,Base64.DEFAULT);
-        return soundByte;
-    }
+
     public Bitmap getImgBitmap(){
         byte[] img = getImgByte();
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -129,12 +195,35 @@ public class Diary {
 
         return bitmap;
     }
+
     public String getImageUrl(){ return imageurl;}
     public String getImage(){return image;}
+
+    // get sound functions
+    public byte[] getAudioByte(){
+        byte[] soundByte = null;
+        soundByte = Base64.decode(sound,Base64.DEFAULT);
+        return soundByte;
+    }
     public String getSound(){return  sound;}
+
+    // get user id
     public String getUserid(){return userid;}
+    // get content
     public String getText(){
         return text;
+    }
+
+    // ------------------delete Functions---------------------------------
+    public void deleteImge(){
+        image = "";
+    }
+    public void deleteSound(){
+        sound = "";
+    }
+    public void deleteLoc(){
+        latitude = 0;
+        longitude = 0;
     }
 
     // for debug
@@ -164,13 +253,20 @@ public class Diary {
         map.put("text", this.text);
         map.put("latitude", Float.toString(this.latitude));
         map.put("longitude", Float.toString(this.longitude));
-        map.put("share",Integer.toString(this.share));
+        map.put("share", Integer.toString(this.share));
         map.put("image", this.image);
         map.put("imageurl", this.imageurl);
         map.put("sound", this.sound);
-        map.put("userid",this.userid);
+        map.put("userid", this.userid);
         Log.d("fb", "hash done");
         return map;
+    }
+
+    /*********************** Helper Functions **************************/
+    private Bitmap compressImgBitmap(Bitmap bitmap, float factor){
+        int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
+        Bitmap result = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+        return result;
     }
 
 }

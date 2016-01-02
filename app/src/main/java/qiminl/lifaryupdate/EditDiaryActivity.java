@@ -4,44 +4,31 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Outline;
-import android.media.Image;
+import android.graphics.Bitmap;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.v4.app.NavUtils;
-import android.text.Layout;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewOutlineProvider;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.melnykov.fab.FloatingActionButton;
-
 import java.io.IOException;
-import java.util.Calendar;
-import java.util.List;
 
 
 public class EditDiaryActivity extends Activity implements AdapterView.OnItemSelectedListener, MediaCommunication, View.OnClickListener, View.OnLongClickListener {
 
-
+    private static final String DEBUG = "Lifary";
     private static final String LOG_TAG = "AudioRecordTest";
+    private static final String CameraDEBUG = "CameraDebug";
     public static final int PRIVATE = 0;
     public static final int PUBLIC = 1;
     private static final String[] delDialogItems = {"delete", "cancel"};
@@ -74,6 +61,9 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
         actionbarSetting();
 
+        Log.d(DEBUG, "on create");
+        currentDiary = new Diary();
+        Log.d(DEBUG, "on create");
         initialize();
 
     }
@@ -158,11 +148,29 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         mPlayer.release();
         mPlayer = null;
         playButton.setText(audioDuration + "\"");
+        // add audio to diary sound
+        if(currentDiary.setSoundByFileName(audioFileName)){
+            Log.d(LOG_TAG, "audio successful added");
+        }
 
     }
 
     @Override
-    public void imgCom(String imgFileName) {
+    public void imgCom(String imgFile) {
+        Log.d(CameraDEBUG, "imgCom called ");
+        // store the imgFile in diary
+        if(currentDiary.setImageByFileName(imgFile)){
+
+            // take the imgFile out in bitmap
+            Bitmap imgBitmap = currentDiary.getImgBitmap();
+
+            // display the bitmap in imgView
+            imgView.setVisibility(View.VISIBLE);
+            imgView.setImageBitmap(imgBitmap);
+        }
+        else{
+            Log.d(CameraDEBUG, "failed to add image");
+        }
 
     }
 
@@ -222,12 +230,7 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
         // date text
         dateEdit = (EditText) findViewById(R.id.dateEdit);
-        Time today = new Time(Time.getCurrentTimezone());
-        today.setToNow();
-        String str = today.month + "-" + today.monthDay + "-"+today.year
-                + " " + today.format("%k:%M:%S");
-        dateTime = str;
-        dateEdit.setText(dateTime);
+        dateEdit.setText(currentDiary.getDate());
 
         // share spinner
         shareSpinner = (Spinner) findViewById(R.id.shareSpinner);
@@ -278,18 +281,21 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
                     // image view
                     if (parent == imgView) {
                         imgView.setVisibility(View.GONE);
-                        // TODO: set image string to null
+                        // set image string to null
+                        currentDiary.deleteImge();
                     }
                     // play button
                     else if (parent == playButton) {
                         playButton.setVisibility(View.GONE);
-                        // TODO: set image string to null
+                        // set image string to null
+                        currentDiary.deleteSound();
 
                     }
                     // location View
                     else {
                         locationView.setVisibility(View.GONE);
-                        // TODO: set location to null
+                        // set location to null
+                        currentDiary.deleteLoc();
 
                     }
                 }

@@ -6,5 +6,5 @@ package qiminl.lifaryupdate;
 public interface MediaCommunication {
 
     void audioCom(String mFilename);
-     void  imgCom(String imgFileName);
+     void  imgCom(String imgFile);
 }
