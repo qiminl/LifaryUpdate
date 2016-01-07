@@ -18,3 +18,5 @@ Future work:
 * QR code scan
 * User Profile
 * QR code generate
+* 
+walalalala!
