@@ -1,26 +1,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
     android:orientation="horizontal"
-    android:background="@android:color/transparent">
+    android:layout_gravity="center"
+    android:background="@android:color/transparent"
+    android:layout_centerVertical="true"
+    android:layout_centerHorizontal="true">
 
-    <ImageView
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:id="@+id/imageView2"
-        android:src="@drawable/edit24dp"
-        android:scaleType="fitCenter"
-        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:textColor= "@color/accent"
-        android:text = "Title"
-        android:textSize="20dp"
-        android:fontFamily="&quot;sans-serif-light&quot;" />
+        android:textColor= "@android:color/white"
+        android:text = "My"
+        android:textSize="24dp"
+        android:fontFamily="@string/roboto_light" />
+
+
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/titlelifary"
+        android:scaleType="fitCenter"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="8dp" />
 
 </LinearLayout>

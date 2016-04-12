@@ -4,7 +4,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="block_horizontal_margin">24dp</dimen>
     <dimen name="block_vertical_margin">24dp</dimen>
-
+    <dimen name="sign_up_horizontal_margin">32dp</dimen>
+    <dimen name="editTextBox_padding">5dp</dimen>
+    <dimen name="editTextBox_margin">8dp</dimen>
 
     <dimen name = "diameter">56dp</dimen>
     <dimen name="elevation_low">1dp</dimen>

@@ -5,11 +5,11 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,12 +35,14 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
     private  static final int DELETE = 0;
     private static final int CANCEL = 1;
     ImageView imgView;
-    EditText dateEdit;
+    TextView dateEdit;
     Spinner shareSpinner;
     EditText textEdit;
     Button playButton;
     TextView locationView;
-    EditButtonFragment frag;
+    Button recBut;
+    Typeface fontawesome;
+    //EditButtonFragment frag;
 
 
     // Diary attr
@@ -58,12 +60,9 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_diary);
+        currentDiary = new Diary();
 
         actionbarSetting();
-
-        Log.d(DEBUG, "on create");
-        currentDiary = new Diary();
-        Log.d(DEBUG, "on create");
         initialize();
 
     }
@@ -100,6 +99,9 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
             case R.id.playButton:
                 onPlay(mStartPlaying);
                 mStartPlaying = !mStartPlaying;
+                break;
+            case R.id.imageView:
+                // TODO: show image in full screen mode
                 break;
         }
     }
@@ -157,7 +159,7 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
     @Override
     public void imgCom(String imgFile) {
-        Log.d(CameraDEBUG, "imgCom called ");
+        Log.d(CameraDEBUG, "imgFile =  " + imgFile);
         // store the imgFile in diary
         if(currentDiary.setImageByFileName(imgFile)){
 
@@ -174,6 +176,27 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
 
     }
 
+    @Override
+    public void locCom(double lat, double lon, String locName) {
+        // TODO: show location name, store location lat, and lon
+        locationView.setVisibility(View.VISIBLE);
+        if(locName != null){
+            locationView.setText(locName);
+        }else{
+            locationView.setText(lat + ", " + lon);
+        }
+        currentDiary.setLocation((float) lat, (float) lon);
+    }
+
+    @Override
+    /*
+    * TODO: save diary in local sql, then go to diary list page
+    * */
+    public void submitCom() {
+        saveDiary();
+        // TODO: go to diary list page
+    }
+
 
     /*************** Media Player Functions **********************/
     private void onPlay(boolean start) {
@@ -183,6 +206,8 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
             stopPlaying();
         }
     }
+
+
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {
@@ -204,19 +229,22 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
     /*********** Setting Action Bar *****************/
     private void actionbarSetting(){
         ActionBar actionBar = getActionBar();
-        View viewActionBar = getLayoutInflater().inflate(R.layout.main_actionbar_layout, null);
-        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
-                //Center the textview in the ActionBar !
-                ActionBar.LayoutParams.WRAP_CONTENT,
-                ActionBar.LayoutParams.MATCH_PARENT,
-                Gravity.CENTER_HORIZONTAL);
-        TextView textviewTitle = (TextView) viewActionBar.findViewById(R.id.titleText);
-        textviewTitle.setText("New Diary");
-        actionBar.setCustomView(viewActionBar, params);
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
+        actionBar.hide();
+//        View viewActionBar = getLayoutInflater().inflate(R.layout.main_actionbar_layout, null);
+//        ActionBar.LayoutParams params = new ActionBar.LayoutParams(
+//                //Center the textview in the ActionBar !
+//                ActionBar.LayoutParams.WRAP_CONTENT,
+//                ActionBar.LayoutParams.MATCH_PARENT,
+//                Gravity.CENTER_HORIZONTAL);
+//        TextView textviewTitle = (TextView) viewActionBar.findViewById(R.id.titleText);
+//        textviewTitle.setText("New");
+//        actionBar.setCustomView(viewActionBar, params);
+//        actionBar.setDisplayShowCustomEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setElevation(0);
+
     }
 
     /*********** Initialize Views *****************/
@@ -225,17 +253,18 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         // Instantiate
         // image view
         imgView = (ImageView) findViewById(R.id.imageView);
+        imgView.setOnClickListener(this);
         imgView.setOnLongClickListener(this);
-        imgView.setVisibility(View.GONE);
+        //imgView.setVisibility(View.GONE);
 
         // date text
-        dateEdit = (EditText) findViewById(R.id.dateEdit);
+        dateEdit = (TextView) findViewById(R.id.dateEdit);
         dateEdit.setText(currentDiary.getDate());
 
         // share spinner
         shareSpinner = (Spinner) findViewById(R.id.shareSpinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.share_selection, android.R.layout.simple_spinner_item);
+                R.array.share_selection, R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shareSpinner.setAdapter(adapter);
         shareSpinner.setOnItemSelectedListener(this);
@@ -248,16 +277,24 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
         playButton.setOnLongClickListener(this);
-        playButton.setVisibility(View.GONE);
+        //playButton.setVisibility(View.GONE);
 
 
         // location text
         locationView = (TextView) findViewById(R.id.locationText);
         playButton.setOnLongClickListener(this);
-        locationView.setVisibility(View.GONE);
+        //locationView.setVisibility(View.GONE);
+
+        // Record button
+        recBut = (Button) findViewById(R.id.recordFab);
+        recBut.setOnLongClickListener(this);
+        fontawesome = Typeface.createFromAsset(getAssets(), "fonts/fontawesome-webfont.ttf");
+        recBut.setTypeface(fontawesome);
+        recBut.setText("\uf130 PRESS TO RECORD");
+
 
         // fragment
-        frag = (EditButtonFragment) getFragmentManager().findFragmentById(R.id.buttonsFrag);
+        //frag = (EditButtonFragment) getFragmentManager().findFragmentById(R.id.buttonsFrag);
 
 
 
@@ -278,12 +315,15 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (which == DELETE) {
+
+
                     // image view
                     if (parent == imgView) {
                         imgView.setVisibility(View.GONE);
                         // set image string to null
                         currentDiary.deleteImge();
                     }
+
                     // play button
                     else if (parent == playButton) {
                         playButton.setVisibility(View.GONE);
@@ -291,6 +331,7 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
                         currentDiary.deleteSound();
 
                     }
+
                     // location View
                     else {
                         locationView.setVisibility(View.GONE);
@@ -304,5 +345,21 @@ public class EditDiaryActivity extends Activity implements AdapterView.OnItemSel
         });
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    /*
+   * TODO: save diary in local sql database
+   *
+   * */
+    private void saveDiary(){
+        // set diary text
+        currentDiary.setContents(textEdit.getText().toString());
+        // set diary share opt
+        currentDiary.setShare(shareSelection);
+        // save it in local db
+        DiaryDBHelper diaryDB = new DiaryDBHelper(this, null, null, 1);
+        diaryDB.addDiary(currentDiary);
+
+
     }
 }

@@ -49,6 +49,7 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
     AudioRecording audioRec;
 
     String imgDecodableString;
+    String camPhotoPath;
 
 
     public EditButtonFragment() {
@@ -94,8 +95,15 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
                 cameraDialog();
                 break;
             case R.id.locationFab:
+                LocationData locData = new LocationData(getActivity());
+                // read location name by geoname
+                locData.getLocNameByGeoname();
+                // TODO: show location from google map
                 break;
             case R.id.sendFab:
+                // get back to activity
+                MediaCommunication mediaCom = (MediaCommunication) getActivity();
+                mediaCom.submitCom();
                 break;
         }
     }
@@ -117,6 +125,8 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
 
                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                        camPhotoPath  = f.getPath();
+                        Log.d(DEBUG, "take photo path = " + camPhotoPath);
                         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
                         startActivityForResult(intent, RESULT_TAKE_PHOTO);
                         break;
@@ -148,6 +158,7 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
 
                 if(requestCode == RESULT_TAKE_PHOTO){
                     Log.d(DEBUG, "take photo requested code = " + requestCode);
+                    takePhote();
                     break;
                 }
                 if(data == null){
@@ -190,7 +201,20 @@ public class EditButtonFragment extends Fragment implements View.OnClickListener
 
         //  pass the img string to the activity
         MediaCommunication mediaCom = (MediaCommunication) getActivity();
+
         mediaCom.imgCom(imgDecodableString);
 
     }
+
+    private void takePhote(){
+
+        Log.d(DEBUG, "take photo result paht = " + camPhotoPath);
+        // send the path to edit diary activity
+        MediaCommunication mediaCom = (MediaCommunication) getActivity();
+        mediaCom.imgCom(camPhotoPath);
+    }
+
+
+
+
 }

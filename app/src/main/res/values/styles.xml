@@ -1,12 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="CustomizeAppTheme" parent="android:Theme.Holo.Light">
+    <style name="CustomizeAppTheme" parent="android:Theme.Material.Light">
         <!-- Customize your theme here. -->
         <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
     </style>
 
-    <style name="MyActionBarStyle" parent="android:Widget.Holo.Light.ActionBar">
+    <style name="MyActionBarStyle" parent="android:Widget.Material.Light.ActionBar">
         <item name="android:background">@color/primary</item>
         <item name="android:titleTextStyle">@style/titleText</item>
         <item name="android:icon">@drawable/icon</item>
@@ -26,13 +26,32 @@
     </style>
 
     <style name="editTextBox" parent="android:Widget.DeviceDefault.EditText">
-        <item name="android:layout_width">328dp</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:textAppearance">@style/regularText</item>
-        <item name="android:textColorHint">@android:color/tertiary_text_light</item>
-
+        <item name="android:textColor">@color/primary_text_white</item>
+        <item name="android:textColorHint">@color/primary_text_white</item>
+        <item name="android:drawablePadding">@dimen/editTextBox_padding</item>
+        <item name="android:fontFamily">@string/roboto_light</item>
+        <item name="android:background">@drawable/edit_text_bg</item>
+        <item name="android:paddingTop">@dimen/editTextBox_padding</item>
+        <item name="android:paddingBottom">@dimen/editTextBox_padding</item>
+        <item name="android:layout_marginTop">@dimen/editTextBox_margin</item>
+        <item name="android:paddingLeft">@dimen/editTextBox_padding</item>
+        <item name="android:textCursorDrawable">@color/primary_text_white</item>
     </style>
+
+    <style name="submitButton" parent="android:Widget.Material.Button">
+        <item name="android:layout_height">36dp</item>
+        <item name="android:background">@drawable/button_bg</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textColor">@color/primary_text_white</item>
+        <item name="android:textAppearance">@android:style/TextAppearance.Material.Medium</item>
+    </style>
+
+    <style name="sharedSpinner" parent="android:Widget.Material.Light.Spinner">
+        <item name="android:textColor">@color/primary_text_white</item>
+        
+    </style>
+
     <style name="regularText" parent="android:TextAppearance">
         <item name="android:color">@color/primary</item>
         <item name="android:fontFamily">&quot;sans-serif&quot;</item>
@@ -43,7 +62,6 @@
         <item name="android:fontFamily">&quot;sans-serifn&quot;</item>
         <item name="android:gravity">center_vertical|center_horizontal|left</item>
     </style>
-
 
 
 </resources>

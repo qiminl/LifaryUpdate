@@ -2,12 +2,10 @@ package qiminl.lifaryupdate;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.util.Base64;
 import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -18,7 +16,7 @@ import java.util.HashMap;
  * Created by liuqimin on 15-07-07.
  */
 public class Diary {
-
+    private static final String DEBUG = "Diary";
     private double id;
     private String date;
     private String text;
@@ -31,7 +29,7 @@ public class Diary {
 
     //todo modify init stat - create a method to full init with content
     public Diary(){
-        // get date and time
+        // set date and time
         Calendar c= Calendar.getInstance();
         int seconds = c.get(Calendar.SECOND);
         int minute = c.get(Calendar.MINUTE);
@@ -71,23 +69,23 @@ public class Diary {
         boolean result = false;
         try{
             FileInputStream is = new FileInputStream(mFileName);
-            Log.d("Lifary", "Method 2, fileinputstream");
+            Log.d(DEBUG, "Method 2, fileinputstream");
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            Log.d("Lifary", "Byte array output stream");
+            Log.d(DEBUG, "Byte array output stream");
             byte[] b = new byte[1024];
-            Log.d("Lifary", "new byte b");
+            Log.d(DEBUG, "new byte b");
             int bytesRead = is.read(b);
-            Log.d("Lifary", "read byte");
+            Log.d(DEBUG, "read byte");
             while (bytesRead != -1) {
                 bos.write(b, 0, bytesRead);
                 bytesRead = is.read(b);
             }
-            Log.d("Lifary", "Read byte done");
+            Log.d(DEBUG, "Read byte done");
             byte[] audioByte = bos.toByteArray();
-            Log.d("Lifary", "convert to byte array");
-            Log.d("Lifary", "Edit Diary: Audio byte = " + Arrays.toString(audioByte));
+            Log.d(DEBUG, "convert to byte array");
+            Log.d(DEBUG, "Edit Diary: Audio byte = " + Arrays.toString(audioByte));
             setSoundByByte(audioByte);
-            Log.d("Lifary", "add Sound");
+            Log.d(DEBUG, "add Sound");
             result = true;
         }catch(Exception e){
             e.printStackTrace();
@@ -99,10 +97,13 @@ public class Diary {
         if(audioByte != null) {
             sound = Base64.encodeToString(audioByte, Base64.DEFAULT);
         }
-        //  Log.d("Lifary", "sound.size = " + sound.length);
+        //  Log.d(DEBUG, "sound.size = " + sound.length);
     }
 
     // set image functions
+
+
+    // TODO: automatically rotate camera images
 
     public void setImage(String image){
         this.image = image;
@@ -116,7 +117,7 @@ public class Diary {
         if(img == null)
             image = "";
         else    image = Base64.encodeToString(img, Base64.DEFAULT);
-        //Log.d("Lifary", "Diary: img == " + Arrays.toString(img));
+        //Log.d(DEBUG, "Diary: img == " + Arrays.toString(img));
     }
 
     public void setImageByByte(byte[] imgByte){
@@ -137,9 +138,7 @@ public class Diary {
         return false;
     }
 
-    public void setImageByCamera(){
-        File f = new File(Environment)
-    }
+
 
     public void setImageUrl(String url){
         imageurl = url;
@@ -263,9 +262,18 @@ public class Diary {
     }
 
     /*********************** Helper Functions **************************/
+
+    /*
+    * Compress bitmap into width 512 px
+    * @param: bitmap: a bitmap image to compress
+    *           factor: the factor you want to compress, ex: 512
+    * @return: a compressed bitmap image
+    * */
     private Bitmap compressImgBitmap(Bitmap bitmap, float factor){
-        int nh = (int) ( bitmap.getHeight() * (512.0 / bitmap.getWidth()) );
-        Bitmap result = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+
+        int nh = (int) ( bitmap.getHeight() * (factor / bitmap.getWidth()) );
+        Bitmap result = Bitmap.createScaledBitmap(bitmap, (int)factor, nh, true);
+
         return result;
     }
 

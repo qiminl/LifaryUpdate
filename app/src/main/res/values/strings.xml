@@ -5,17 +5,32 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title">Lifary</string>
-    <string name="loginLink"> Log in </string>
-    <string name="signupLink"> Sign Up </string>
+    <string name="loginLink"> Already a member? <u>Log in!</u></string>
+    <string name="signupLink"> New to Lifary? <u>Sign up!</u> </string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="username">username</string>
     <string name="password">password</string>
     <string name="unique">unique</string>
     <string name="user">user</string>
     <string name="blockColor">#80ffffff</string>
+    <string name="record">PRESS TO RECORD</string>
+    <string name="RECORDING">RECORDING</string>
+    <string name="lorem">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum molestie convallis leo, hendrerit placerat mi lobortis a. Mauris gravida neque vel nulla auctor, sit amet dapibus ligula tristique. Maecenas pulvinar placerat elementum. Ut lobortis rhoncus ipsum, ac egestas lectus rutrum a. Etiam euismod orci non tristique ultricies. Nam ornare ex id mauris efficitur, in volutpat massa condimentum. Phasellus aliquet vel lacus non hendrerit. Aenean cursus ipsum nulla, quis semper justo tempor eget. Vestibulum et sapien nec quam accumsan porttitor. Etiam luctus commodo velit sed dapibus.
 
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eget luctus tellus. Cras tempor pharetra nisi sit amet facilisis. Nunc eget ipsum eget neque laoreet ornare. Praesent orci magna, dictum quis ultrices id, commodo tristique massa. Sed sodales, tortor in faucibus ornare, tortor sem interdum mauris, vitae efficitur velit arcu eu erat. Mauris dui sem, condimentum quis diam et, rhoncus feugiat sapien.
+
+Ut eu mi sit amet odio vestibulum mollis in ac enim. Praesent dictum leo quis turpis lobortis, quis scelerisque diam consequat. Maecenas vitae massa id lorem commodo posuere ut sit amet lectus. Phasellus convallis id turpis ut laoreet. Cras at suscipit neque. Suspendisse nibh odio, pellentesque eget mollis a, vehicula nec enim. Pellentesque nec arcu velit. Nulla ac vehicula velit, vel luctus diam. Donec venenatis molestie efficitur. Aliquam erat volutpat. Donec rhoncus sit amet purus et dictum. Pellentesque suscipit justo vel purus rhoncus consectetur sit amet ac sem. Vivamus luctus nibh enim, non posuere massa consectetur vitae. Pellentesque tempus congue lacus dignissim lacinia. Proin sollicitudin arcu ante, vestibulum placerat neque consectetur quis. Quisque volutpat condimentum diam, in aliquet mauris finibus non.
+
+Integer a dui id magna bibendum sollicitudin eu ornare lectus. Donec at tempor nisi. Nulla facilisi. Proin non aliquam nulla, ac hendrerit magna. Donec bibendum, libero eget fermentum vulputate, arcu nisl consectetur purus, eu condimentum lectus sapien at nulla. Nunc rhoncus pharetra lacinia. Curabitur faucibus augue arcu. Cras consequat orci ex, nec tempus nisi laoreet sit amet. Praesent rhoncus viverra tellus, nec condimentum purus viverra sed.
+
+Vestibulum at viverra justo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Maecenas fringilla tincidunt diam, vel euismod nibh tincidunt et. Maecenas pretium felis felis, et accumsan ipsum molestie quis. Nam sit amet ante eu lacus scelerisque feugiat vitae eget nisl. Donec dictum ligula in turpis sodales, et commodo ipsum iaculis. Nam vitae faucibus turpis. Aenean egestas, ante non sollicitudin pellentesque, tellus elit condimentum lacus, eu convallis tortor mi non libero. Aliquam venenatis ultrices imperdiet. Vestibulum ac massa velit. Sed sodales dui non ipsum tempus porta. Pellentesque non fermentum augue, in malesuada lacus. Nam sit amet felis at erat pretium malesuada.
+
+</string>
     <!-- Font -->
     <string name="roboto_light">sans-serif-light</string>
+    <string name="roboto_regular">sans-serif</string>
+
+    <string name="font_name_fontawesome">fontawesome</string>
 
     <!-- Errors and messages -->
     <string name="qrdroid_missing">QR Droid version 3.5 or later is required. Do you want to download or update it for free?</string>
@@ -34,22 +49,25 @@
     <string name="url_direct">http://droid.la/apk/qr/</string>
     <string name="url_source">http://qrdroid.com/services</string>
 
-    <string name="UPLOAD_DIARY">http://192.168.1.71:8000/wala/upload_diary.php</string>
-    <string name="DOWNLOAD_ALL_DIARIES_URL">http://192.168.1.71:8000/wala/get_all_diaries.php</string>
-    <string name="UPLOAD_FILE">http://192.168.1.71:8000/wala/UploadToServer.php</string>
-    <string name="UPLOAD_DIARY_URL">http://192.168.1.71:8000/wala/upload_diary.php</string>
-    <string name="DOWNLOAD_USER_DIARIES_URL">http://192.168.1.71:8000/wala/get_diary.php</string>
-    <string name="LOGIN">http://192.168.1.71:8000/wala/login.php</string>
-    <string name="REGISTER">http://192.168.1.71:8000/wala/register.php</string>
+    <string name="UPLOAD_DIARY">http://66.183.89.85/wala/upload_diary.php</string>
+    <string name="DOWNLOAD_ALL_DIARIES_URL">http://66.183.89.85/wala/get_all_diaries.php</string>
+    <string name="UPLOAD_FILE">http://66.183.89.85/wala/UploadToServer.php</string>
+    <string name="UPLOAD_DIARY_URL">http://66.183.89.85/wala/upload_diary.php</string>
+    <string name="DOWNLOAD_USER_DIARIES_URL">http://66.183.89.85/wala/get_diary.php</string>
+    <string name="LOGIN">http://66.183.89.85/wala/login.php</string>
+    <string name="REGISTER">http://66.183.89.85/wala/register.php</string>
     <string name="title_activity_launcher">LauncherActivity</string>
     <string name="title_activity_diary_list">DiaryListActivity</string>
     <string name="title_activity_edit_diary">EditDiaryActivity</string>
 
     <!-- Spinner Selections -->
     <string-array name="share_selection">
-        <item>Private</item>
-        <item>Public</item>
+        <item>privately</item>
+        <item>publicly</item>
     </string-array>
+
+    <!-- Geoname webservice -->
+    <string name="geoname_locName">http://api.geonames.org/findNearbyPlaceNameJSON?lat=</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
